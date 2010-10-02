@@ -1,0 +1,68 @@
+<html><head>
+<title>#shibuyapm Stream</title>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/DUI.js"></script>
+<script type="text/javascript" src="/js/Stream.js"></script>
+<script type="text/javascript">
+$(function() {
+  var list = [];
+  var s = new DUI.Stream();
+  s.listen("application/javascript", function(payload) {
+    eval("var json = " + payload);
+    var div = $("<DIV />").addClass("content");
+    div.append(
+        $("<P />").
+            addClass("name").
+            append(
+                $("<IMG />").
+                addClass("icon").
+                attr("src", json.icon_url)
+            ).
+            append(json.nickname)
+    );
+    div.append(
+        $("<P />").
+            addClass("msg").
+            text(json.message)
+    );
+     $('#content').prepend(div);
+     list.unshift(div);
+     if (list.length === 100) {
+         list.pop().remove();
+     }
+  });
+  s.load('/stream');
+});
+</script>
+<style type="text/css">
+body {
+    background-color: #aaa;
+}
+.content {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #fff;
+}
+.name {
+    font-size: 1.3em;
+    font-family: sans-serif;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+.icon {
+    width: 48px;
+    height: 48px;
+}
+.msg {
+    font-size: 2em;
+    font-family: sans-serif;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+</style>
+</head>
+<body>
+<div id="content"></div>
+</body>
+</html>

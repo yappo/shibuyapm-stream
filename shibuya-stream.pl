@@ -21,6 +21,9 @@ use Plack::Response;
 use Config::Pit;
 use Encode;
 use JSON;
+use URI::Escape;
+
+my $keyword = $ARGV[0] || 'shibuyapm';
 
 my $config = pit_get("example.com", require => {
     consumer_key    => 'your twitter consumer_key',
@@ -35,7 +38,7 @@ my $twitter = twitter
     token           => $config->{token},
     token_secret    => $config->{token_secret},
     method          => 'filter',
-    track           => $ARGV[0] || 'shibuyapm',
+    track           => $keyword,
     ;
 
 my @queue;
@@ -62,8 +65,10 @@ my $app = sub {
     my $req = Plack::Request->new(shift);
     if ($req->path eq '/') {
         open my $fh, '<', './index.html';
+        my $html = do { local $/; <$fh> };
+        $html =~ s/\$keyword/$keyword/g;
         my $res = Plack::Response->new(200);
-        $res->body($fh);
+        $res->body($html);
         return $res->finalize;
     } elsif ($req->path eq '/js/DUI.js') {
         open my $fh, '<', './DUI.js';

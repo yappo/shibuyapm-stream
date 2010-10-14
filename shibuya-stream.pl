@@ -98,9 +98,10 @@ my $app = sub {
             if ($receive->message) {
                 my $ret = "Content-Type: application/javascript\n";
                 $ret .= to_json({
-                    nickname => $receive->from_nickname,
-                    message  => encode( utf8 => $receive->message ),
-                    icon_url => $receive->attribute('icon_url'),
+                    nickname   => $receive->from_nickname,
+                    message    => encode( utf8 => $receive->message ),
+                    icon_url   => $receive->attribute('icon_url'),
+                    created_at => $receive->attribute('created_at'),
                 });
                 $ret .= "\n--$boundary\n";
                 return $ret;

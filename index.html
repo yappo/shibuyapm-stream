@@ -12,13 +12,22 @@ $(function() {
     var div = $("<DIV />").addClass("content");
     div.append(
         $("<P />").
-            addClass("name").
+            addClass("content_head").
             append(
                 $("<IMG />").
                 addClass("icon").
                 attr("src", json.icon_url)
             ).
-            append(json.nickname)
+            append(
+                $("<SPAN />").
+                    addClass("name").
+                    text(json.nickname)
+            ).
+            append(
+                $("<SPAN />").
+                    addClass("created_at").
+                    text(json.created_at)
+            )
     );
     div.append(
         $("<P />").
@@ -42,11 +51,22 @@ body {
     margin-bottom: 20px;
     border-bottom: 2px solid #fff;
 }
+.content_head {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
 .name {
     font-size: 1.3em;
     font-family: sans-serif;
     border: 0;
-    padding: 0;
+    padding-left: 20px;
+    margin: 0;
+}
+.created_at {
+    font-size: 1.0em;
+    border: 0;
+    padding-left: 20px;
     margin: 0;
 }
 .icon {

@@ -41,6 +41,13 @@ $(function() {
      }
   });
   s.load('/stream');
+
+  var bgcolor = location.hash;
+  if (bgcolor) {
+    $("body").css({
+      "background-color": bgcolor
+    });
+  }
 });
 </script>
 <style type="text/css">
